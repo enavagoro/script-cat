@@ -1,0 +1,136 @@
+<ion-header>
+  <ion-toolbar>
+    <img class="toolbar-image" src="https://www.flaticon.com/svg/static/icons/svg/3629/3629088.svg" (click)="generateArticle();">
+    <h1 class="title-bar">Pet me to generate your article (just click :3)</h1>
+<!--
+    <ion-segment value="general">
+      <ion-segment-button value="general" style="--color:white;" (click)="changeFlag(true);">
+        <ion-label style="color:white;">General</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="article" style="--color:white;" (click)="changeFlag(false);">
+        <ion-label style="color:white;">Article</ion-label>
+      </ion-segment-button>
+  </ion-segment>
+  -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="flagArticle">
+</ion-content>
+
+<ion-content [fullscreen]="true" *ngIf="!flagArticle">
+  <div *ngFor="let element of elements; index as i">
+    <div class="container-element" *ngIf="element.name == 'title'">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="https://www.flaticon.com/svg/static/icons/svg/112/112643.svg">
+        </ion-avatar>
+        <ion-label position="stacked" class="subtitulo-contrato">Title<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="" [(ngModel)]="element.content"></ion-input>
+        <ion-badge slot="end" (click)="deleteElement(i);">Delete</ion-badge>
+      </ion-item>
+    </div>
+
+    <div class="container-element" *ngIf="element.name == 'header'">
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://www.flaticon.com/svg/static/icons/svg/112/112630.svg">
+      </ion-avatar>
+      <ion-label position="stacked" class="subtitulo-contrato">Header<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required type="text" [(ngModel)]="element.content"></ion-input>
+      <ion-badge slot="end" (click)="deleteElement(i);">Delete</ion-badge>
+    </ion-item>
+
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://www.flaticon.com/svg/static/icons/svg/112/112630.svg">
+      </ion-avatar>
+      <ion-label position="stacked" class="subtitulo-contrato"><b>Id of Header: (spaceships,sales,examples)</b><ion-text color="danger">*</ion-text></ion-label>
+      <ion-input type="text" [(ngModel)]="element.id"></ion-input>
+    </ion-item>
+    </div>
+
+    <div class="container-element" *ngIf="element.name == 'paragraph'">
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://www.flaticon.com/svg/static/icons/svg/112/112609.svg">
+      </ion-avatar>
+      <ion-label position="stacked" class="clausula-contrato">Paragraph</ion-label>
+      <ion-textarea [(ngModel)]="element.content"></ion-textarea>
+      <ion-badge slot="end" (click)="deleteElement(i);">Delete</ion-badge>
+    </ion-item>
+    </div>
+
+    <div class="container-element" *ngIf="element.name == 'link'">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="https://www.flaticon.com/svg/static/icons/svg/112/112610.svg">
+        </ion-avatar>
+        <ion-label position="stacked" class="subtitulo-contrato">text of link<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text" [(ngModel)]="element.content"></ion-input>
+        <ion-badge slot="end" (click)="deleteElement(i);">Delete</ion-badge>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="https://www.flaticon.com/svg/static/icons/svg/112/112610.svg">
+        </ion-avatar>
+        <ion-label position="stacked" class="subtitulo-contrato"><b>Url of link:( href="http://example.com/" or href="./exampleFolder")</b><ion-text color="danger">*</ion-text></ion-label>
+        <ion-input type="text" [(ngModel)]="element.url"></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="container-element" *ngIf="element.name == 'image'">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="https://www.flaticon.com/svg/static/icons/svg/112/112614.svg">
+        </ion-avatar>
+        <ion-label position="stacked" class="subtitulo-contrato">Image Url<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="" [(ngModel)]="element.url" placeholder="../img/examplefile.exa(.png .svg .jpg)"></ion-input>
+        <ion-badge slot="end" (click)="deleteElement(i);">Delete</ion-badge>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="https://www.flaticon.com/svg/static/icons/svg/112/112614.svg">
+        </ion-avatar>
+        <ion-label position="stacked" class="subtitulo-contrato">Width of Image <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="" [(ngModel)]="element.width" placeholder="80px(<-- width px -->)"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="https://www.flaticon.com/svg/static/icons/svg/112/112614.svg">
+        </ion-avatar>
+        <ion-label position="stacked" class="subtitulo-contrato"><b>Class name: (example-class)</b><ion-text color="danger">*</ion-text></ion-label>
+        <ion-input type="text" [(ngModel)]="element.class"></ion-input>
+      </ion-item>
+
+    </div>
+  </div>
+  <div class="final-item">
+  </div>
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" *ngIf="!flagArticle">
+   <ion-fab-button class="fab-principal" data-desc="!Miau, add here a New Element">
+     <img src="https://www.flaticon.com/svg/static/icons/svg/112/112632.svg">
+   </ion-fab-button>
+   <ion-fab-list side="top">
+     <ion-fab-button data-desc="Title" (click)="pushTitle()">
+       <ion-icon name="remove-outline"></ion-icon>
+     </ion-fab-button>
+     <ion-fab-button data-desc="Header" (click)="pushHeader()">
+       <ion-icon name="reorder-two-outline"></ion-icon>
+     </ion-fab-button>
+     <ion-fab-button data-desc="Paragraph" (click)="pushParagraph()">
+       <ion-icon name="reader-outline"></ion-icon>
+     </ion-fab-button>
+     <ion-fab-button data-desc="Link" (click)="pushLink()">
+       <ion-icon name="link-outline"></ion-icon>
+     </ion-fab-button>
+     <ion-fab-button data-desc="Image" (click)="pushImage()">
+       <ion-icon name="image-outline"></ion-icon>
+     </ion-fab-button>
+   </ion-fab-list>
+ </ion-fab>
