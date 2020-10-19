@@ -48,24 +48,32 @@ export class HomePage {
    console.log(this.elements);
  }
 
- generateArticle(){
+ confirmArticle(){
    if(this.elements.length==0){
      this.error();
    }
+   else{
+     this.okay();
+   }
+ }
+
+ generateArticle(){
    this.converter.sendElements(this.elements);
    var body = this.converter.getElements();
-   console.log('body mandado',body);
-   this.transporter.transportHtmlBody(body).subscribe(result => (console.log('result',result)));
+   this.transporter.transportHtmlBody(body).subscribe(result => {
+     this.transporter.getFiles()
+   });
  }
 
  changeFlag(value){
    this.flagArticle = value;
  }
 
+
  async error() {
    //console.log(this.gasto);
 
-   const alert = await this.alertController.create({
+   const alertError = await this.alertController.create({
      header: 'Miau  >:C !!!',
      message: 'You need to add an element before you generate your article!!!',
      buttons: [{
@@ -77,7 +85,32 @@ export class HomePage {
      ]
    });
 
-   await alert.present();
+   await alertError.present();
+ }
+
+ async okay() {
+   //console.log(this.gasto);
+
+   const alertOkay = await this.alertController.create({
+     header: 'Miau  :3 !!!',
+     message: 'are you sure you want to generate an article?!',
+     buttons: [
+       {
+        text: 'Cancelar',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: (blah) => {
+        //console.log('Cancelado');
+        }},{
+         text: 'Okay',
+         handler: () => {
+           this.generateArticle();
+         }
+       }
+     ]
+   });
+
+   await alertOkay.present();
  }
 
 }
